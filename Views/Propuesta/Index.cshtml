@@ -37,8 +37,24 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
+                    @{
+                        if (item.Status == "A")
+                        {
+                            <label>Aceptada</label>
+                        }
+                        else if (item.Status == "R")
+                        {
+                            <label>Rechazado</label>
+                        }
+                        else if (item.Status == "I")
+                        {
+                            <label>Interesado</label>
+                        }
+                        else
+                        {
+                            <label>Sin Revisar</label>
+                        }
+                    }            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>

@@ -68,48 +68,69 @@ namespace Subastas.Controllers
         }
 
         // GET: Propuesta/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            try
+            {
+                // TODO: Add update logic here
+                Propuesta Propuesta = await _context.Propuesta.FindAsync(id);
+                return View(Propuesta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST: Propuesta/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Propuesta propuestaModificada)
         {
             try
             {
-                // TODO: Add update logic here
-
+                Propuesta propuesta = await _context.Propuesta.FindAsync(id);
+                _context.Entry(propuesta).CurrentValues.SetValues(propuestaModificada);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return BadRequest(ex.Message);
             }
         }
 
         // GET: Propuesta/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            try
+            {
+                Propuesta Propuesta = await _context.Propuesta.FindAsync(id);
+                return View(Propuesta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST: Propuesta/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Propuesta propuestaEliminada)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                Propuesta Propuesta = await _context.Propuesta.FindAsync(id);
+                _context.Propuesta.Attach(Propuesta);
+                _context.Propuesta.Remove(Propuesta);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return BadRequest(ex.Message);
             }
         }
     }
