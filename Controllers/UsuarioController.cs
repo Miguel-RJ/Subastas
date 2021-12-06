@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Subastas.Data;
 using Subastas.Models;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Subastas.Controllers
 {
@@ -59,6 +62,29 @@ namespace Subastas.Controllers
             try
             {
                 // TODO: Add insert logic here
+                if (usuario.RolID == 2)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        ResponseSAT SAT = new ResponseSAT();
+
+                        using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, "https://api.satws.com/rfc/validate/" + usuario.RFC))
+                        {
+                            requestMessage.Headers.Add("x-api-key", "53b49f2431c1cb104911f1e197b68926");
+                            HttpResponseMessage response = await client.SendAsync(requestMessage);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                SAT = JsonConvert.DeserializeObject<ResponseSAT>(response.Content.ReadAsStringAsync().Result);
+                            }
+                            if (!(SAT.valid == true && SAT.active == true))
+                            {
+                                ViewBag.Message = "RFC no valido o no activo";
+                                return View("Create", usuario);
+
+                            }
+                        }
+                    }
+                }
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
