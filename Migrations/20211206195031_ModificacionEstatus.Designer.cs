@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Subastas.Data;
 
 namespace Subastas.Migrations
 {
     [DbContext(typeof(SubastaProyectosContext))]
-    partial class SubastaProyectosContextModelSnapshot : ModelSnapshot
+    [Migration("20211206195031_ModificacionEstatus")]
+    partial class ModificacionEstatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,14 +25,14 @@ namespace Subastas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<float?>("Calificacion")
+                        .HasColumnType("float");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("text");
 
-                    b.Property<float?>("Grade")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("text");
+                    b.Property<char>("Estatus")
+                        .HasColumnType("int");
 
                     b.Property<int>("SubastaID")
                         .HasColumnType("int");
@@ -68,16 +70,16 @@ namespace Subastas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<float?>("Calificacion")
+                        .HasColumnType("float");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("text");
 
-                    b.Property<float?>("Grade")
-                        .HasColumnType("float");
+                    b.Property<char>("Estatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("NombreProyecto")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Status")
                         .HasColumnType("text");
 
                     b.Property<int>("UsuarioID")

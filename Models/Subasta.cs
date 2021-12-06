@@ -9,8 +9,7 @@ namespace Subastas.Models
         public int UsuarioID { get; set; }
         public string NombreProyecto { get; set; }
         public string Descripcion { get; set; }
-        public float Calificacion { get; set; }
-        public bool Estatus { get; set; }
-
+        public float? Grade { get; set; }
+        public string Status { get; set; }
     }
 }
