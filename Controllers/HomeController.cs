@@ -23,6 +23,11 @@ namespace Subastas.Controllers
             return View();
         }
 
+        public async Task<ActionResult> LogIn()
+        {
+
+        }
+
         public IActionResult Privacy()
         {
             return View();
