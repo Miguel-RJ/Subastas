@@ -46,12 +46,25 @@
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @{
+                    if(item.Status == "C")
+                    {
+                        <label>En Curso</label>
+                    }
+                    else if(item.Status == "T")
+                    {
+                        <label>Terminado</label>
+                    }
+                    else
+                    {
+                        <label>Seleccionada</label>
+                    }
+                }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ID  }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+                @Html.ActionLink("Editar", "Edit", new { id=item.ID  }) |
+                @Html.ActionLink("Propuestas", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.ID })
             </td>
         </tr>
 }

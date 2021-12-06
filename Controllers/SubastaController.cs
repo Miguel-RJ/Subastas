@@ -69,7 +69,7 @@ namespace Subastas.Controllers
             try
             {
                 // TODO: Add insert logic here
-
+                subasta.Status = "E";
                 await _context.Subasta.AddAsync(subasta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -81,48 +81,69 @@ namespace Subastas.Controllers
         }
 
         // GET: Subasta/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            try
+            {
+                // TODO: Add update logic here
+                Subasta Subasta = await _context.Subasta.FindAsync(id);
+                return View(Subasta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST: Subasta/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Subasta subastaModificada)
         {
             try
             {
-                // TODO: Add update logic here
-
+                Subasta subasta = await _context.Subasta.FindAsync(id);
+                _context.Entry(subasta).CurrentValues.SetValues(subastaModificada);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return BadRequest(ex.Message);
             }
         }
 
         // GET: Subasta/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            try
+            {
+                Subasta Subasta = await _context.Subasta.FindAsync(id);
+                return View(Subasta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST: Subasta/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Subasta subastaModificada)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                Subasta Subasta = await _context.Subasta.FindAsync(id);
+                _context.Subasta.Attach(Subasta);
+                _context.Subasta.Remove(Subasta);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return BadRequest(ex.Message);
             }
         }
     }
