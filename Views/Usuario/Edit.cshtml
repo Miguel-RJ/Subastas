@@ -1,10 +1,10 @@
 @model Subastas.Models.Usuario
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Usuario";
 }
 
-<h1>Edit</h1>
+<h1>Editar Usuario</h1>
 
 <h4>Usuario</h4>
 <hr />
@@ -13,22 +13,20 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ID" class="control-label"></label>
-                <input asp-for="ID" class="form-control" />
-                <span asp-validation-for="ID" class="text-danger"></span>
+                <label class="control-label">Rol</label>
+                <select asp-for="RolID" class="form-control">
+                    <option value=1>Administrador</option>
+                    <option value=2>PyME</option>
+                    <option value=3>Consultoría</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="RolID" class="control-label"></label>
-                <input asp-for="RolID" class="form-control" />
-                <span asp-validation-for="RolID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TagUsuario" class="control-label"></label>
+                <label class="control-label">Usuario</label>
                 <input asp-for="TagUsuario" class="form-control" />
                 <span asp-validation-for="TagUsuario" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NombreUsuario" class="control-label"></label>
+                <label class="control-label">Nombre</label>
                 <input asp-for="NombreUsuario" class="form-control" />
                 <span asp-validation-for="NombreUsuario" class="text-danger"></span>
             </div>
@@ -38,24 +36,19 @@
                 <span asp-validation-for="RFC" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
+                <label class="control-label">Descripción</label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Calificacion" class="control-label"></label>
-                <input asp-for="Calificacion" class="form-control" />
-                <span asp-validation-for="Calificacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Regresar al listado de Usuarios</a>
 </div>
 
 @section Scripts {

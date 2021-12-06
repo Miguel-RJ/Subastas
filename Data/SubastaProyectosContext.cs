@@ -17,8 +17,11 @@ namespace Subastas.Data
         {
             modelBuilder.Entity<Rol>().ToTable("Rol");
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
+            modelBuilder.Entity<Usuario>().Property(f => f.ID).ValueGeneratedOnAdd();
             modelBuilder.Entity<Subasta>().ToTable("Subasta");
+            modelBuilder.Entity<Subasta>().Property(f => f.ID).ValueGeneratedOnAdd();
             modelBuilder.Entity<Propuesta>().ToTable("Propuesta");
+            modelBuilder.Entity<Propuesta>().Property(f => f.ID).ValueGeneratedOnAdd();
         }
     }
 }
