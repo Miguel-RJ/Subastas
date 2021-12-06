@@ -12,6 +12,6 @@ namespace Subastas.Models
         public string TituloPropuesta { get; set; }
         public string Descripcion { get; set; }
         public char Estatus { get; set; }
-        public int Calificacion { get; set; }
+        public float Calificacion { get; set; }
     }
 }
