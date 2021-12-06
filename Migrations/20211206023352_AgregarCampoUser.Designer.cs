@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Subastas.Data;
 
 namespace Subastas.Migrations
 {
     [DbContext(typeof(SubastaProyectosContext))]
-    partial class SubastaProyectosContextModelSnapshot : ModelSnapshot
+    [Migration("20211206023352_AgregarCampoUser")]
+    partial class AgregarCampoUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
