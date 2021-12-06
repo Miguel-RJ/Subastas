@@ -14,7 +14,20 @@
             <label class="control-label">Rol</label>
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RolID)
+            @{
+                if (Model.RolID == 1)
+                {
+                    <label>Administrador</label>
+                }
+                else if (Model.RolID == 2)
+                {
+                    <label>PyME</label>
+                }
+                else
+                {
+                    <label>Consultoría</label>
+                }
+            }
         </dd>
         <dt class="col-sm-2">
             <label class="control-label">Usuario</label>
