@@ -21,13 +21,28 @@ namespace Subastas.Controllers
         // GET: Usuario
         public async Task<ActionResult> Index()
         {
-            return View(await _context.Usuarios.ToListAsync());
+            try
+            {
+                return View(await _context.Usuarios.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET: Usuario/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            try
+            {
+                Usuario Usuario = await _context.Usuarios.FindAsync(id);
+                return View(Usuario);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET: Usuario/Create
@@ -48,55 +63,76 @@ namespace Subastas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return BadRequest(ex.Message);
             }
         }
 
         // GET: Usuario/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            try
+            {
+                Usuario Usuario = await _context.Usuarios.FindAsync(id);
+                return View(Usuario);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST: Usuario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Usuario usuarioModificado)
         {
             try
             {
                 // TODO: Add update logic here
-
+                Usuario Usuario = await _context.Usuarios.FindAsync(id);
+                _context.Entry(Usuario).CurrentValues.SetValues(usuarioModificado);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return BadRequest(ex.Message);
             }
         }
 
         // GET: Usuario/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            try
+            {
+                Usuario Usuario = await _context.Usuarios.FindAsync(id);
+                return View(Usuario);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST: Usuario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Usuario usuarioEliminado)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                Usuario Usuario = await _context.Usuarios.FindAsync(id);
+                _context.Usuarios.Attach(Usuario);
+                _context.Usuarios.Remove(Usuario);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return BadRequest(ex.Message);
             }
         }
     }
