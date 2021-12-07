@@ -40,16 +40,18 @@ namespace Subastas.Controllers
         }
 
         // GET: Propuesta/Create
-        public async Task<ActionResult> Create(int subasta_)
+        public async Task<ActionResult> Create(int subasta_, int consultoria)
         {
 
             //ViewBag.Message = usuario.NombreUsuario;
             Subasta subasta = await _context.Subasta.FindAsync(subasta_);
             Usuario usuario = await _context.Usuarios.FindAsync(subasta.UsuarioID);
+            Usuario Consultoria = await _context.Usuarios.FindAsync(consultoria);
             ViewBag.Message = usuario.NombreUsuario;
             ViewBag.TituloSubasta = subasta.NombreProyecto;
             ViewBag.DescripcionSubasta = subasta.Descripcion;
-            ViewData["IdUser"] = usuario.ID;
+            ViewData["IdUser"] = Consultoria.ID;
+            ViewBag.Pyme = subasta.UsuarioID;
             return View();
         }
 
@@ -64,7 +66,7 @@ namespace Subastas.Controllers
                 propuesta.Status = "S";
                 await _context.Propuesta.AddAsync(propuesta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { usuario = propuesta.UsuarioID });
             }
             catch (Exception ex)
             {
@@ -146,7 +148,7 @@ namespace Subastas.Controllers
                 // TODO: Add delete logic here
                 var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == consultoria);
                 ViewBag.IDPyme = usuario.ID;
-                ViewBag.Consultoria = consultoria;
+                ViewBag.Consultoria = usuario.ID;
                 List<Subasta> Subastas = await _context.Subasta.Where(x => x.Status == "E").ToListAsync();
                 return View(Subastas);
             }
@@ -155,7 +157,7 @@ namespace Subastas.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        public async Task<ActionResult> DetailsSubastas(int subastaid)
+        public async Task<ActionResult> DetailsSubastas(int subastaid, int consultoria)
         {
             try
             {
@@ -178,7 +180,8 @@ namespace Subastas.Controllers
                     ViewBag.Calificacion = "Sin Proyectos Terminados calificados";
                 }
                 ViewBag.PyME = Usuario.NombreUsuario;
-                ViewBag.Consultoria = string.Empty;
+                var Consultoria = await _context.Usuarios.FindAsync(consultoria);
+                ViewBag.Consultoria = Consultoria.ID;
                 return View(Subasta);
             }
             catch (Exception ex)

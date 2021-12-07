@@ -62,8 +62,8 @@
                 }
             </td>
             <td>
-                    @Html.ActionLink("Ver más", "DetailsSubastas", new { subastaid=item.ID }) |
-                    @Html.ActionLink("Proponer", "Create", new { subasta_=item.ID }) |
+                    @Html.ActionLink("Ver más", "DetailsSubastas", new { subastaid=item.ID, consultoria = ViewBag.Consultoria }) |
+                    @Html.ActionLink("Proponer", "Create", new { subasta_=item.ID, consultoria = ViewBag.Consultoria}) |
             </td>
         </tr>
 }

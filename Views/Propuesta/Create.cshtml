@@ -18,6 +18,10 @@
                 <span asp-validation-for="UsuarioID" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input asp-for="SubastaID" class="form-control" value='@ViewBag.Pyme' type = "hidden"/>
+                <span asp-validation-for="UsuarioID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label  class="control-label">Título de la Subasta</label>
                 <br>
                 <label  class="control-label">@ViewBag.TituloSubasta</label>
@@ -52,7 +56,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Regresar a Tus Propuestas</a>
+    @Html.ActionLink("Regresar a tus propuestas", "Index",new { usuario=ViewData["IdUser"] } ) |
+
 </div>
 
 @section Scripts {
