@@ -1,0 +1,69 @@
+@model IEnumerable<Subastas.Models.Propuesta>
+
+@{
+    ViewData["Title"] = "Propuestas Terminadas";
+}
+
+<h1>Propuestas Terminadas</h1>
+<p>
+    @Html.ActionLink("Regresar a tus subastas", "Index",new { usuario=ViewBag.PyME } ) |
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Título de la Propuesta
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Estatus
+            </th>
+            <th>
+                Calificación
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TituloPropuesta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @{
+                    if (item.Status == "A")
+                    {
+                        <label>Aceptado</label>
+                    }
+                    else if (item.Status == "R")
+                    {
+                        <label>Rechazado</label>
+                    }
+                    else if (item.Status == "I")
+                    {
+                        <label>Interesado</label>
+                    }
+                    else
+                    {
+                        <label>Sin Revisar</label>
+                    }
+                }            
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                    @Html.ActionLink("Ver más", "DetailsPropuestas", new { consultoria=item.ID, PyME = ViewBag.PyME }) |    
+                    @Html.ActionLink("Calificar", "UpdateGrade", new { consultoria=item.ID, PyME = ViewBag.PyME }) |            
+            </td>
+        </tr>
+                }
+    </tbody>
+</table>

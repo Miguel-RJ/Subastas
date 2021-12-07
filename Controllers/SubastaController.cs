@@ -75,7 +75,7 @@ namespace Subastas.Controllers
                 subasta.Status = "E";
                 await _context.Subasta.AddAsync(subasta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { usuario = subasta.UsuarioID });
             }
             catch (Exception ex)
             {
@@ -222,6 +222,52 @@ namespace Subastas.Controllers
                 _context.Entry(propuesta).CurrentValues.SetValues(propuestaModificada);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { usuario = propuestaModificada.UsuarioID });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        public async Task<ActionResult> IndexPropuestasAcep(int PyME)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
+                ViewBag.PyME = usuario.ID;
+                List<Propuesta> Propuestas = await _context.Propuesta.Where(x => x.Status == "A").ToListAsync();
+                return View(Propuestas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        public async Task<ActionResult> IndexPropuestaTer(int PyME)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
+                ViewBag.PyME = usuario.ID;
+                List<Propuesta> Propuestas = await _context.Propuesta.Where(x => x.Status == "T").ToListAsync();
+                return View(Propuestas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        public async Task<ActionResult> UpdateGrade(int consultoria, int PyME)
+        {
+            try
+            {
+                var Propuesta = await _context.Propuesta.Where(x => x.ID == consultoria).FirstOrDefaultAsync();
+                var Usuario = await _context.Usuarios.Where(x => x.ID == Propuesta.UsuarioID).FirstOrDefaultAsync();
+                ViewBag.Consultoria = Usuario.NombreUsuario;
+                var UsuarioPyME = await _context.Usuarios.Where(x => x.ID == PyME).FirstOrDefaultAsync();
+                ViewBag.PyME = UsuarioPyME.ID;
+                return View("EditPropuestasGrade", Propuesta);
             }
             catch (Exception ex)
             {

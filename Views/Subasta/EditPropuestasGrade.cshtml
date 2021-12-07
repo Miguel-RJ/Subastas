@@ -1,10 +1,10 @@
 @model Subastas.Models.Propuesta
 
 @{
-    ViewData["Title"] = "Editar Estatus";
+    ViewData["Title"] = "Editar Calificación";
 }
 
-<h1>Editar Estatus</h1>
+<h1>Editar Calificación</h1>
 
 <h4>Propuesta</h4>
 <hr />
@@ -29,17 +29,24 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="A">Aceptado</option>
-                    <option value="R">Rechazado</option>
-                    <option value="S">Sin Revisar</option>
+                <select asp-for="Status" class="form-control" type = "hidden">
                     <option value="T">Terminada</option>
                 </select>                
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Grade" class="form-control"  type = "hidden"/>
-            </div>
+                <select asp-for="Grade" class="form-control" type = "hidden">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                    <option value=9>9</option>
+                    <option value=10>10 </option>
+                </select>               
             <div class="form-group">
                 <input type="submit" value="Actualizar" class="btn btn-primary" />
             </div>
