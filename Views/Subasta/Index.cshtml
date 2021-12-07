@@ -11,7 +11,7 @@
 <h2>Tus Subastas</h2>
 
 <p>
-    @Html.ActionLink("Crear Subasta", "Create", new { id=Model.FirstOrDefault().ID}) | @Html.ActionLink("Ver Propuestas Disponibles", "IndexPropuestas", new { ViewBag.Consultoria}) 
+    @Html.ActionLink("Crear Subasta", "Create", new { id=Model.FirstOrDefault().ID}) | @Html.ActionLink("Ver Propuestas Disponibles", "IndexPropuestas", new { PyME = ViewBag.PyME }) 
 </p>
 <table class="table">
     <thead>

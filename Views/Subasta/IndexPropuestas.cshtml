@@ -5,6 +5,9 @@
 }
 
 <h1>Propuestas para tus proyectos</h1>
+<p>
+    @Html.ActionLink("Regresar a tus subastas", "Index",new { usuario=ViewBag.PyME } ) |
+</p>
 
 <table class="table">
     <thead>
@@ -51,7 +54,7 @@
                 }            
             </td>
             <td>
-                @Html.ActionLink("Ver más", "DetailsPropuestas", new { consultoria=item.ID }) |    
+                    @Html.ActionLink("Ver más", "DetailsPropuestas", new { consultoria=item.ID, PyME = ViewBag.PyME }) |    
                 @Html.ActionLink("Acción", "Create", new { consultoria=item.ID }) |            
             </td>
         </tr>
