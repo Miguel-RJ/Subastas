@@ -11,50 +11,56 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ID)
+            Consulturía
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ID)
+            @ViewBag.Consultoria
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubastaID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubastaID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TituloPropuesta)
+            Título de la Propuesta
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TituloPropuesta)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
+            Descripción
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+            Estatus
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+            @if (Model.Status == "A")
+            {
+                <label>Aceptada</label>
+            }
+            else if (Model.Status == "R")
+            {
+                <label>Rechazada</label>
+            }
+            else if (Model.Status == "I")
+            {
+                <label>Interesado</label>
+            }
+            else if (Model.Status == "S")
+            {
+                <label>Sin Revisar</label>
+            }
+            else
+            {
+                <label>Terminada</label>
+            }
+                    </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Grade)
+            Calificación
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Grade)
+            @ViewBag.Calificacion
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Regresar a Propuestas", "IndexPropuestas", new { id=ViewBag.Consultoria }) |
 </div>

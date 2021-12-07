@@ -26,6 +26,7 @@ namespace Subastas.Controllers
             {
                 var Usuario = await _context.Usuarios.FindAsync(usuario);
                 ViewBag.Message = Usuario.NombreUsuario;
+                ViewBag.Consultoria = Usuario.ID;
                 return View(await _context.Subasta.ToListAsync());
             }
             catch (Exception ex)
@@ -142,6 +143,51 @@ namespace Subastas.Controllers
                 _context.Subasta.Remove(Subasta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        public async Task<ActionResult> IndexPropuestas(int consultoria)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == consultoria);
+                ViewBag.IDConsultoria = usuario.ID;
+                List<Propuesta> Propuestas = await _context.Propuesta.Where(x => x.Status == "S").ToListAsync();
+                return View(Propuestas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        public async Task<ActionResult> DetailsPropuestas(int consultoria)
+        {
+            try
+            {
+                var Propuesta = await _context.Propuesta.Where(x => x.ID == consultoria).FirstOrDefaultAsync();
+                var Usuario = await _context.Usuarios.Where(x => x.ID == Propuesta.UsuarioID).FirstOrDefaultAsync();
+                var PropuestasTerminadas = await _context.Propuesta.Where(x => x.UsuarioID == Usuario.ID && x.Status == "T").ToListAsync();
+                int SumaCalificaciones = 0;
+                foreach (var item in PropuestasTerminadas)
+                {
+                    SumaCalificaciones += Convert.ToInt32(item.Grade);
+                }
+
+                if (PropuestasTerminadas.Count != 0)
+                {
+                    float Promedio = SumaCalificaciones / PropuestasTerminadas.Count();
+                    ViewBag.Calificacion = Promedio;
+                }
+                else
+                {
+                    ViewBag.Calificacion = "Sin Proyectos Terminados calificados";
+                }
+                ViewBag.Consultoria = Usuario.NombreUsuario;
+                return View(Propuesta);
             }
             catch (Exception ex)
             {

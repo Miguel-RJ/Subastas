@@ -10,9 +10,6 @@
     <thead>
         <tr>
             <th>
-                Consultoría
-            </th>
-            <th>
                 Título de la Propuesta
             </th>
             <th>
@@ -28,21 +25,36 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @ViewBag.Consultoria
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.TituloPropuesta)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @{
+                    if (item.Status == "A")
+                    {
+                        <label>Aceptado</label>
+                    }
+                    else if (item.Status == "R")
+                    {
+                        <label>Rechazado</label>
+                    }
+                    else if (item.Status == "I")
+                    {
+                        <label>Interesado</label>
+                    }
+                    else
+                    {
+                        <label>Sin Revisar</label>
+                    }
+                }            
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Ver más", "DetailsPropuestas", new { consultoria=item.ID }) |    
+                @Html.ActionLink("Acción", "Create", new { consultoria=item.ID }) |            
             </td>
         </tr>
-}
+                }
     </tbody>
 </table>
