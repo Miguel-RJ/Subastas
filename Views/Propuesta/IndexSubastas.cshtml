@@ -13,7 +13,7 @@
     @Html.ActionLink("Regresar a tus propuestas", "Index",new { usuario=ViewBag.IDPyme } ) |
 </p>
 
-<h2>Estás son las subas disponibles para ti</h2>
+<h2>Estás son las subastas disponibles para puja</h2>
 
 <table class="table">
     <thead>
@@ -47,7 +47,7 @@
             </td>
             <td>
                 @{
-                    if(item.Status == "C")
+                    if(item.Status == "E")
                     {
                         <label>En Curso</label>
                     }

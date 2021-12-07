@@ -40,7 +40,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Regresar a Listade de Subastas</a>
+    @Html.ActionLink("Regresar a tus subastas", "Index",new { usuario=ViewData["IdUser"] } ) |
 </div>
 
 @section Scripts {

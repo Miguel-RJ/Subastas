@@ -25,6 +25,7 @@ namespace Subastas.Controllers
                 var Usuario = await _context.Usuarios.FindAsync(usuario);
                 ViewBag.Message = Usuario.NombreUsuario;
                 ViewBag.Consultoria = Usuario.ID;
+                ViewBag.TipoPropuesta = "";
                 return View(await _context.Propuesta.Where(x => x.UsuarioID == usuario).ToListAsync());
             }
             catch (Exception ex)
@@ -40,6 +41,18 @@ namespace Subastas.Controllers
                 ViewBag.Message = Usuario.NombreUsuario;
                 ViewBag.Consultoria = Usuario.ID;
                 var Propuestas = await _context.Propuesta.Where(x => x.Status == status && x.UsuarioID == consultoria).ToListAsync();
+                if (status == "A")
+                {
+                    ViewBag.TipoPropuesta = "Aceptadas";
+                }
+                else if (status == "T")
+                {
+                    ViewBag.TipoPropuesta = "Terminadas";
+                }
+                else
+                {
+                    ViewBag.TipoPropuesta = "";
+                }
                 return View("Index", Propuestas);
             }
             catch (Exception ex)
@@ -228,6 +241,7 @@ namespace Subastas.Controllers
         {
             try
             {
+
                 return BadRequest();
 
             }

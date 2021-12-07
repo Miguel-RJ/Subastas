@@ -27,7 +27,7 @@ namespace Subastas.Controllers
                 var Usuario = await _context.Usuarios.FindAsync(usuario);
                 ViewBag.Message = Usuario.NombreUsuario;
                 ViewBag.PyME = Usuario.ID;
-                return View(await _context.Subasta.ToListAsync());
+                return View(await _context.Subasta.Where(x => x.UsuarioID == usuario).ToListAsync());
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace Subastas.Controllers
         }
 
         // GET: Subasta/Create
-        public async Task<ActionResult> Create(int subasta_)
+        public async Task<ActionResult> Create(int PyME)
         {
             try
             {
@@ -52,8 +52,7 @@ namespace Subastas.Controllers
                 //     return View("Home","Index", usuario);
                 // }
                 //ViewBag.Message = usuario.NombreUsuario;
-                Subasta subasta = await _context.Subasta.FindAsync(subasta_);
-                Usuario usuario = await _context.Usuarios.FindAsync(subasta.UsuarioID);
+                Usuario usuario = await _context.Usuarios.FindAsync(PyME);
                 ViewBag.Message = usuario.NombreUsuario;
                 ViewData["IdUser"] = usuario.ID;
                 return View();
@@ -154,10 +153,20 @@ namespace Subastas.Controllers
             try
             {
                 // TODO: Add delete logic here
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
-                ViewBag.PyME = usuario.ID;
-                List<Propuesta> Propuestas = await _context.Propuesta.Where(x => x.Status == "S").ToListAsync();
-                return View(Propuestas);
+                //var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
+                //List<Propuesta> PropuestasAceptadas = await _context.Propuesta.Where(x => x.UsuarioID == PyME && x.Status == "A").ToListAsync;
+                List<Subasta> Subastas = await _context.Subasta.Where(x => x.UsuarioID == PyME && x.Status == "E").ToListAsync();
+                List<Propuesta> PropuestasPyme = new List<Propuesta>();
+                foreach (var item in Subastas)
+                {
+                    var PropuestasDeSubasta = await _context.Propuesta.Where(x => x.SubastaID == item.UsuarioID & x.Status == "S").ToListAsync();
+                    foreach (var prop in PropuestasDeSubasta)
+                    {
+                        PropuestasPyme.Add(prop);
+                    }
+                }
+                ViewBag.PyME = PyME;
+                return View(PropuestasPyme);
             }
             catch (Exception ex)
             {
@@ -220,8 +229,34 @@ namespace Subastas.Controllers
             {
                 Propuesta propuesta = await _context.Propuesta.FindAsync(propuestaModificada.ID);
                 _context.Entry(propuesta).CurrentValues.SetValues(propuestaModificada);
+
+                Subasta subasta = await _context.Subasta.Where(x => x.UsuarioID == propuestaModificada.SubastaID).FirstOrDefaultAsync(); ;
+                Subasta newSubasta = subasta;
+                if (propuestaModificada.Status == "A")
+                {
+                    newSubasta.Status = "S";
+                }
+                else if (propuestaModificada.Status == "T")
+                {
+                    newSubasta.Status = "T";
+                }
+                _context.Entry(subasta).CurrentValues.SetValues(newSubasta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { usuario = propuestaModificada.UsuarioID });
+                return RedirectToAction(nameof(Index), new { usuario = propuestaModificada.SubastaID });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        public async Task<ActionResult> IndexPropuestasSR(int PyME)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                ViewBag.PyME = PyME;
+                List<Propuesta> Propuestas = await _context.Propuesta.Where(x => x.Status == "S" && x.UsuarioID == PyME).ToListAsync();
+                return View(Propuestas);
             }
             catch (Exception ex)
             {
@@ -233,10 +268,19 @@ namespace Subastas.Controllers
             try
             {
                 // TODO: Add delete logic here
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
-                ViewBag.PyME = usuario.ID;
-                List<Propuesta> Propuestas = await _context.Propuesta.Where(x => x.Status == "A").ToListAsync();
-                return View(Propuestas);
+                //var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
+                List<Subasta> Subastas = await _context.Subasta.Where(x => x.UsuarioID == PyME && x.Status == "S").ToListAsync();
+                List<Propuesta> PropuestasPyme = new List<Propuesta>();
+                foreach (var item in Subastas)
+                {
+                    var PropuestasDeSubasta = await _context.Propuesta.Where(x => x.SubastaID == item.UsuarioID & x.Status == "A").ToListAsync();
+                    foreach (var prop in PropuestasDeSubasta)
+                    {
+                        PropuestasPyme.Add(prop);
+                    }
+                }
+                ViewBag.PyME = PyME;
+                return View(PropuestasPyme);
             }
             catch (Exception ex)
             {
@@ -248,10 +292,19 @@ namespace Subastas.Controllers
             try
             {
                 // TODO: Add delete logic here
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
-                ViewBag.PyME = usuario.ID;
-                List<Propuesta> Propuestas = await _context.Propuesta.Where(x => x.Status == "T").ToListAsync();
-                return View(Propuestas);
+                //var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
+                List<Subasta> Subastas = await _context.Subasta.Where(x => x.UsuarioID == PyME && x.Status == "T").ToListAsync();
+                List<Propuesta> PropuestasPyme = new List<Propuesta>();
+                foreach (var item in Subastas)
+                {
+                    var PropuestasDeSubasta = await _context.Propuesta.Where(x => x.SubastaID == item.UsuarioID & x.Status == "T").ToListAsync();
+                    foreach (var prop in PropuestasDeSubasta)
+                    {
+                        PropuestasPyme.Add(prop);
+                    }
+                }
+                ViewBag.PyME = PyME;
+                return View(PropuestasPyme);
             }
             catch (Exception ex)
             {

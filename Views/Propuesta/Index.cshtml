@@ -8,11 +8,11 @@
     <h1>Bienvenido, @ViewBag.Message</h1>
 }
 
-<h2>Tus Propuestas</h1>
+<h2>Tus Propuestas @ViewBag.TipoPropuesta</h1>
 
 <p>
         @Html.ActionLink("Ver Subastas Disponibles", "IndexSubastas", new {consultoria = ViewBag.Consultoria }) |
-        @Html.ActionLink("Ver Propuestas Seleccionadas", "IndexSelec", new {consultoria = ViewBag.Consultoria , status = "A"}) |
+        @Html.ActionLink("Ver Propuestas Aceptadas", "IndexSelec", new {consultoria = ViewBag.Consultoria , status = "A"}) |
         @Html.ActionLink("Ver Propuestas Terminadas", "IndexSelec", new {consultoria = ViewBag.Consultoria , status = "T"}) 
 </p>
 <table class="table">
