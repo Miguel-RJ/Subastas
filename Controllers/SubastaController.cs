@@ -19,10 +19,12 @@ namespace Subastas.Controllers
             _context = context;
         }
         // GET: Subasta
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(Usuario usuario)
         {
+
             try
             {
+                ViewBag.Message = usuario.NombreUsuario;
                 return View(await _context.Subasta.ToListAsync());
             }
             catch (Exception ex)
@@ -38,7 +40,7 @@ namespace Subastas.Controllers
         }
 
         // GET: Subasta/Create
-        public ActionResult Create(Usuario usuario)
+        public async Task<ActionResult> Create(int subasta_)
         {
             try
             {
@@ -47,13 +49,12 @@ namespace Subastas.Controllers
                 //     ViewBag.Message = "Solo las PyME pueden crear subastas";
                 //     return View("Home","Index", usuario);
                 // }
-                Subasta subasta = new Subasta()
-                {
-                    UsuarioID = 8
-                };
                 //ViewBag.Message = usuario.NombreUsuario;
-                ViewBag.Message = "Banco de México";
-                return View(subasta);
+                Subasta subasta = await _context.Subasta.FindAsync(subasta_);
+                Usuario usuario = await _context.Usuarios.FindAsync(subasta.UsuarioID);
+                ViewBag.Message = usuario.NombreUsuario;
+                ViewData["IdUser"] = usuario.ID;
+                return View();
             }
             catch (Exception ex)
             {

@@ -18,10 +18,11 @@ namespace Subastas.Controllers
             _context = context;
         }
         // GET: Propuesta
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(Usuario usuario)
         {
             try
             {
+                ViewBag.Message = usuario.NombreUsuario;
                 return View(await _context.Propuesta.ToListAsync());
             }
             catch (Exception ex)

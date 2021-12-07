@@ -4,7 +4,11 @@
     ViewData["Title"] = "Usuarios";
 }
 
-<h1>Usuarios</h1>
+@if (ViewBag.Message != null)
+{
+    <h1>Bienvenido, @ViewBag.Message</h1>
+}
+<h2>Usuarios</h2>
 
 <p>
     <a asp-action="Create">Crear Usuario</a>

@@ -4,17 +4,18 @@
     ViewData["Title"] = "Subastas";
 }
 
-<h1>Tus Subastas</h1>
+@if (ViewBag.Message != null)
+{
+        <h1>Bienvenido, @ViewBag.Message</h1>
+}
+<h2>Tus Subastas</h2>
 
 <p>
-    <a asp-action="Create">Crear Subasta</a>
+    @Html.ActionLink("Crear Subasta", "Create", new { subasta_ = Model.FirstOrDefault().ID}) |
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioID)
-            </th>
             <th>
                 Nombre del Proyecto
             </th>
@@ -33,9 +34,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioID)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NombreProyecto)
             </td>

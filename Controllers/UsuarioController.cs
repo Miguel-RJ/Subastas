@@ -22,10 +22,11 @@ namespace Subastas.Controllers
             _context = context;
         }
         // GET: Usuario
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(Usuario usuario)
         {
             try
             {
+                ViewBag.Message = usuario.NombreUsuario;
                 return View(await _context.Usuarios.ToListAsync());
             }
             catch (Exception ex)

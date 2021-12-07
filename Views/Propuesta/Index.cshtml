@@ -3,8 +3,12 @@
 @{
     ViewData["Title"] = "Propuestas";
 }
+@if (ViewBag.Message != null)
+{
+    <h1>Bienvenido, @ViewBag.Message</h1>
+}
 
-<h1>Tus Propuestas</h1>
+<h2>Tus Propuestas</h1>
 
 <p>
     <a asp-action="Create">Crear Propuesta</a>

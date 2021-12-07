@@ -48,15 +48,15 @@ namespace Subastas.Controllers
             {
                 if (match.RolID == 1)
                 {
-                    return RedirectToAction("Index", "Usuario");
+                    return RedirectToAction("Index", "Usuario", match);
                 }
                 else if (match.RolID == 2)
                 {
-                    return RedirectToAction("Index", "Subasta");
+                    return RedirectToAction("Index", "Subasta", match);
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Propuesta");
+                    return RedirectToAction("Index", "Propuesta", match);
                 }
             }
         }
