@@ -9,6 +9,7 @@ using Subastas.Models;
 using Subastas.Data;
 using Newtonsoft.Json;
 using System.Net.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace Subastas.Controllers
 {
@@ -82,7 +83,7 @@ namespace Subastas.Controllers
                         if (!(SAT.valid == true && SAT.active == true))
                         {
                             ViewBag.Message = "RFC no valido o no activo";
-                            return View(usuario);
+                            return RedirectToAction("SignUp", new { message = "RFC no valido o no activo" });
 
                         }
                     }
@@ -108,8 +109,12 @@ namespace Subastas.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<ActionResult> SignUp()
+        public async Task<ActionResult> SignUp(string message)
         {
+            if (message != "")
+            {
+                ViewBag.Message = message;
+            }
             return View();
         }
     }

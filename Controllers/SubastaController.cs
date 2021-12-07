@@ -107,7 +107,7 @@ namespace Subastas.Controllers
                 Subasta subasta = await _context.Subasta.FindAsync(id);
                 _context.Entry(subasta).CurrentValues.SetValues(subastaModificada);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { usuario = subastaModificada.UsuarioID });
             }
             catch (Exception ex)
             {
@@ -141,7 +141,7 @@ namespace Subastas.Controllers
                 _context.Subasta.Attach(Subasta);
                 _context.Subasta.Remove(Subasta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { usuario = Subasta.UsuarioID });
             }
             catch (Exception ex)
             {
@@ -155,7 +155,8 @@ namespace Subastas.Controllers
                 // TODO: Add delete logic here
                 //var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == PyME);
                 //List<Propuesta> PropuestasAceptadas = await _context.Propuesta.Where(x => x.UsuarioID == PyME && x.Status == "A").ToListAsync;
-                List<Subasta> Subastas = await _context.Subasta.Where(x => x.UsuarioID == PyME && x.Status == "E").ToListAsync();
+
+                List<Subasta> Subastas = await _context.Subasta.Where(x => x.Status == "E").ToListAsync();
                 List<Propuesta> PropuestasPyme = new List<Propuesta>();
                 foreach (var item in Subastas)
                 {

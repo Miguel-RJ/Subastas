@@ -179,7 +179,7 @@ namespace Subastas.Controllers
                 var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == consultoria);
                 ViewBag.IDPyme = usuario.ID;
                 ViewBag.Consultoria = usuario.ID;
-                List<Subasta> Subastas = await _context.Subasta.Where(x => x.Status == "E").ToListAsync();
+                List<Subasta> Subastas = await _context.Subasta.ToListAsync();
                 return View(Subastas);
             }
             catch (Exception ex)
@@ -241,6 +241,7 @@ namespace Subastas.Controllers
         {
             try
             {
+
 
                 return BadRequest();
 
