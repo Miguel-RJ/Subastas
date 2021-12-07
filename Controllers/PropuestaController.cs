@@ -24,6 +24,7 @@ namespace Subastas.Controllers
             {
                 var Usuario = await _context.Usuarios.FindAsync(usuario);
                 ViewBag.Message = Usuario.NombreUsuario;
+                ViewBag.PyME = Usuario.ID;
                 return View(await _context.Propuesta.ToListAsync());
             }
             catch (Exception ex)
@@ -138,11 +139,13 @@ namespace Subastas.Controllers
             }
         }
 
-        public async Task<ActionResult> IndexSubastas()
+        public async Task<ActionResult> IndexSubastas(int pyme)
         {
             try
             {
                 // TODO: Add delete logic here
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == pyme);
+                ViewBag.IDPyme = usuario.ID;
                 List<Subasta> Subastas = await _context.Subasta.Where(x => x.Status == "E").ToListAsync();
                 return View(Subastas);
             }

@@ -1,0 +1,48 @@
+@model IEnumerable<Subastas.Models.Propuesta>
+
+@{
+    ViewData["Title"] = "Propuestas Disponibles";
+}
+
+<h1>Propuestas para tus proyectos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Consultoría
+            </th>
+            <th>
+                Título de la Propuesta
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Estatus
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @ViewBag.Consultoria
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TituloPropuesta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
