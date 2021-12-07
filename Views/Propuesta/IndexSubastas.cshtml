@@ -1,0 +1,71 @@
+@model IEnumerable<Subastas.Models.Subasta>
+
+@{
+    ViewData["Title"] = "Subastas";
+}
+
+@if (ViewBag.Message != null)
+{
+        <h1>Hola, @ViewBag.Message</h1>
+}
+
+<p>
+    @Html.ActionLink("Regresar a tus propuestas", "Index",new { usuario=Model.FirstOrDefault().ID } ) |
+</p>
+
+<h2>Estás son las subas disponibles para ti</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre del Proyecto
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Calificación
+            </th>
+            <th>
+                Estatus
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreProyecto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @{
+                    if(item.Status == "C")
+                    {
+                        <label>En Curso</label>
+                    }
+                    else if(item.Status == "T")
+                    {
+                        <label>Terminado</label>
+                    }
+                    else
+                    {
+                        <label>Seleccionada</label>
+                    }
+                }
+            </td>
+            <td>
+                    @Html.ActionLink("Ver más", "DetailsSubastas", new { subastaid=item.ID }) |
+                    @Html.ActionLink("Proponer", "Create", new { subasta_=item.ID }) |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

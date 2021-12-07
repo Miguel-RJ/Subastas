@@ -1,0 +1,58 @@
+@model Subastas.Models.Subasta
+
+@{
+    ViewData["Title"] = "Detalle Subasta";
+}
+
+<h1>Detalle de Subasta</h1>
+
+<div>
+    <h4>Subasta</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            PyME
+        </dt>
+        <dd class = "col-sm-10">
+            @ViewBag.PyME
+        </dd>
+        <dt class = "col-sm-2">
+            Nombre del proyecto
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NombreProyecto)
+        </dd>
+        <dt class = "col-sm-2">
+            Descripción
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Grade)
+        </dt>
+        <dd class = "col-sm-10">
+            @ViewBag.Calificacion
+        </dd>
+        <dt class = "col-sm-2">
+            Estatus
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.Status == "E")
+            {
+                <label>En Curso</label>
+            }
+            else if (Model.Status == "T")
+            {
+                <label>Terminado</label>
+            }
+            else
+            {
+                <label>Seleccionada</label>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="IndexSubastas">Regresar a Subastas</a>
+</div>
