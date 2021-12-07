@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Subastas.Models;
+using Subastas.Data;
+
 
 namespace Subastas.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly SubastaProyectosContext _context;
+        public HomeController(SubastaProyectosContext context, ILogger<HomeController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
@@ -23,10 +26,40 @@ namespace Subastas.Controllers
             return View();
         }
 
-        // public async Task<ActionResult> LogIn()
-        // {
+        public async Task<ActionResult> LogIn()
+        {
+            return View();
+        }
 
-        // }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LogIn(Usuario usuario)
+        {
+            Usuario match = _context.Usuarios.SingleOrDefault(x => x.TagUsuario == usuario.TagUsuario);
+            if (match is null)
+            {
+                return View();
+            }
+            else if (match.Password != usuario.Password)
+            {
+                return View();
+            }
+            else
+            {
+                if (match.RolID == 1)
+                {
+                    return RedirectToAction("Index", "Usuario");
+                }
+                else if (match.RolID == 2)
+                {
+                    return RedirectToAction("Index", "Subasta");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Propuesta");
+                }
+            }
+        }
 
         public IActionResult Privacy()
         {
