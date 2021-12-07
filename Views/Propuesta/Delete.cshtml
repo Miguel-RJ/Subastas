@@ -27,7 +27,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Elimiar" class="btn btn-danger" /> |
-        <a asp-action="Index">Regresar a tus Propuestas</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+    @Html.ActionLink("Regresar a Propuestas", "Index", new { usuario=ViewBag.Consultoria }) |
     </form>
 </div>

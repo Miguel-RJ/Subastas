@@ -25,14 +25,28 @@ namespace Subastas.Controllers
                 var Usuario = await _context.Usuarios.FindAsync(usuario);
                 ViewBag.Message = Usuario.NombreUsuario;
                 ViewBag.Consultoria = Usuario.ID;
-                return View(await _context.Propuesta.ToListAsync());
+                return View(await _context.Propuesta.Where(x => x.UsuarioID == usuario).ToListAsync());
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
+        public async Task<ActionResult> IndexSelec(int consultoria, string status)
+        {
+            try
+            {
+                var Usuario = await _context.Usuarios.FindAsync(consultoria);
+                ViewBag.Message = Usuario.NombreUsuario;
+                ViewBag.Consultoria = Usuario.ID;
+                var Propuestas = await _context.Propuesta.Where(x => x.Status == status && x.UsuarioID == consultoria).ToListAsync();
+                return View("Index", Propuestas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         // GET: Propuesta/Details/5
         public ActionResult Details(int id)
         {
@@ -52,6 +66,7 @@ namespace Subastas.Controllers
             ViewBag.DescripcionSubasta = subasta.Descripcion;
             ViewData["IdUser"] = Consultoria.ID;
             ViewBag.Pyme = subasta.UsuarioID;
+            ViewBag.Consultoria = consultoria;
             return View();
         }
 
@@ -81,6 +96,7 @@ namespace Subastas.Controllers
             {
                 // TODO: Add update logic here
                 Propuesta Propuesta = await _context.Propuesta.FindAsync(id);
+                ViewBag.Consultoria = Propuesta.UsuarioID;
                 return View(Propuesta);
             }
             catch (Exception ex)
@@ -99,7 +115,7 @@ namespace Subastas.Controllers
                 Propuesta propuesta = await _context.Propuesta.FindAsync(id);
                 _context.Entry(propuesta).CurrentValues.SetValues(propuestaModificada);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { usuario = propuesta.UsuarioID });
             }
             catch (Exception ex)
             {
@@ -113,6 +129,7 @@ namespace Subastas.Controllers
             try
             {
                 Propuesta Propuesta = await _context.Propuesta.FindAsync(id);
+                ViewBag.Consultoria = Propuesta.UsuarioID;
                 return View(Propuesta);
             }
             catch (Exception ex)
@@ -124,16 +141,16 @@ namespace Subastas.Controllers
         // POST: Propuesta/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, Propuesta propuestaEliminada)
+        public async Task<ActionResult> Delete(Propuesta propuestaEliminada)
         {
             try
             {
                 // TODO: Add delete logic here
-                Propuesta Propuesta = await _context.Propuesta.FindAsync(id);
+                Propuesta Propuesta = await _context.Propuesta.FindAsync(propuestaEliminada.ID);
                 _context.Propuesta.Attach(Propuesta);
                 _context.Propuesta.Remove(Propuesta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { usuario = Propuesta.UsuarioID });
             }
             catch (Exception ex)
             {
@@ -189,6 +206,35 @@ namespace Subastas.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+        public async Task<ActionResult> IndexPropuestasSelec(int consultoria)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.ID == consultoria);
+                ViewBag.IDPyme = usuario.ID;
+                ViewBag.Consultoria = usuario.ID;
+                List<Subasta> Subastas = await _context.Subasta.Where(x => x.Status == "S").ToListAsync();
+                return View("Index", Subastas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public async Task<ActionResult> UpdateGrade(int consultoria, int PyME)
+        {
+            try
+            {
+                return BadRequest();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

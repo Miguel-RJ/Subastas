@@ -27,6 +27,6 @@
     
     <form asp-action="Delete">
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Regresar a tus Subastas</a>
+    @Html.ActionLink("Regresar a tus Subastas", "Index", new { usuario=ViewBag.PyME }) |
     </form>
 </div>

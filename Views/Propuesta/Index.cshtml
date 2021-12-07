@@ -11,7 +11,9 @@
 <h2>Tus Propuestas</h1>
 
 <p>
-        @Html.ActionLink("Ver Subastas Disponibles", "IndexSubastas", new {consultoria = ViewBag.Consultoria}) |
+        @Html.ActionLink("Ver Subastas Disponibles", "IndexSubastas", new {consultoria = ViewBag.Consultoria }) |
+        @Html.ActionLink("Ver Propuestas Seleccionadas", "IndexSelec", new {consultoria = ViewBag.Consultoria , status = "A"}) |
+        @Html.ActionLink("Ver Propuestas Terminadas", "IndexSelec", new {consultoria = ViewBag.Consultoria , status = "T"}) 
 </p>
 <table class="table">
     <thead>
@@ -50,9 +52,9 @@
                         {
                             <label>Rechazado</label>
                         }
-                        else if (item.Status == "I")
+                        else if (item.Status == "T")
                         {
-                            <label>Interesado</label>
+                            <label>Terminado</label>
                         }
                         else
                         {
@@ -63,8 +65,19 @@
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
-                @Html.ActionLink("Eliminar Propuesta", "Delete", new { id=item.ID })
+                @if(item.Status == "T")
+                {
+                    @Html.ActionLink("Calificar", "UpdateGrade", new { id=item.ID });
+                }
+                else if(item.Status == "A")
+                {
+
+                }
+                else
+                {
+                    @Html.ActionLink("Editar", "Edit", new { id=item.ID });
+                    @Html.ActionLink("Eliminar Propuesta", "Delete", new { id = item.ID });
+                }
             </td>
         </tr>
 }

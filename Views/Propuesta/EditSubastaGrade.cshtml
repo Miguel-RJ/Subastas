@@ -1,0 +1,64 @@
+@model Subastas.Models.Subasta
+
+@{
+    ViewData["Title"] = "Calificar Subasta";
+}
+
+<h1>Calificar Subasta</h1>
+
+<h4>Subasta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditSubastaGrade">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="ID" class="form-control" type="hidden" />
+                <span asp-validation-for="ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="UsuarioID" class="form-control" type="hidden" />
+                <span asp-validation-for="UsuarioID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="NombreProyecto" class="form-control" type="hidden" />
+                <span asp-validation-for="NombreProyecto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Descripcion" class="form-control" type="hidden"  />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grade" class="control-label"></label>
+                <select asp-for="Grade" class="form-control">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                    <option value=9>9</option>
+                    <option value=10>10 </option>
+                </select>                 
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Status" class="form-control" type="hidden" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Regresar a Propuestas", "Index", new { usuario=ViewBag.Consultoria }) |
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

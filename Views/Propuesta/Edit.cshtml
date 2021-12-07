@@ -50,7 +50,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Regresar a Tus Propuestas</a>
+    @Html.ActionLink("Regresar a Propuestas", "Index", new { usuario=ViewBag.Consultoria }) |
 </div>
 
 @section Scripts {
