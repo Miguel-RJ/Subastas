@@ -196,5 +196,37 @@ namespace Subastas.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        public async Task<ActionResult> UpdateStatus(int consultoria, int PyME)
+        {
+            try
+            {
+                var Propuesta = await _context.Propuesta.Where(x => x.ID == consultoria).FirstOrDefaultAsync();
+                var Usuario = await _context.Usuarios.Where(x => x.ID == Propuesta.UsuarioID).FirstOrDefaultAsync();
+                ViewBag.Consultoria = Usuario.NombreUsuario;
+                var UsuarioPyME = await _context.Usuarios.Where(x => x.ID == PyME).FirstOrDefaultAsync();
+                ViewBag.PyME = UsuarioPyME.ID;
+                return View("EditPropuestas", Propuesta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public async Task<ActionResult> UpdatePropuesta(Propuesta propuestaModificada)
+        {
+            try
+            {
+                Propuesta propuesta = await _context.Propuesta.FindAsync(propuestaModificada.ID);
+                _context.Entry(propuesta).CurrentValues.SetValues(propuestaModificada);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index), new { usuario = propuestaModificada.UsuarioID });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

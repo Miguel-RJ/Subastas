@@ -55,7 +55,7 @@
             </td>
             <td>
                     @Html.ActionLink("Ver más", "DetailsPropuestas", new { consultoria=item.ID, PyME = ViewBag.PyME }) |    
-                @Html.ActionLink("Acción", "Create", new { consultoria=item.ID }) |            
+                    @Html.ActionLink("Acción", "UpdateStatus", new { consultoria=item.ID, PyME = ViewBag.PyME }) |            
             </td>
         </tr>
                 }
